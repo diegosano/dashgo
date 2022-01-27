@@ -16,9 +16,10 @@ import {
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 
 import { Header } from '../../components/Header';
+import { Pagination } from '../../components/Pagination';
 import { Sidebar } from '../../components/Sidebar';
 
-export default function UserLsit() {
+export default function UserList() {
   return (
     <Box>
       <Header />
@@ -70,7 +71,6 @@ export default function UserLsit() {
                 </Td>
                 <Td>12 de Abril, 2021</Td>
                 <Td>
-                  {' '}
                   <Button
                     as="a"
                     size="sm"
@@ -84,6 +84,8 @@ export default function UserLsit() {
               </Tr>
             </Tbody>
           </Table>
+
+          <Pagination />
         </Box>
       </Flex>
     </Box>
