@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   Box,
@@ -26,7 +26,8 @@ import { Sidebar } from '../../components/Sidebar';
 import { useUsers } from '../../services/hooks/useUsers';
 
 export default function UserList() {
-  const { data, isLoading, isFetching, error } = useUsers();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading, isFetching, error } = useUsers(currentPage);
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -89,49 +90,48 @@ export default function UserList() {
                 </Thead>
 
                 <Tbody>
-                  {data &&
-                    data.map((user) => {
-                      return (
-                        <Tr key={user.id}>
-                          <Td px={['4', '4', '6']}>
-                            <Checkbox colorScheme="pink" />
-                          </Td>
-                          <Td>
-                            <Box>
-                              <Text fontWeight="bold">{user.name}</Text>
-                              <Text fontSize="sm" color="gray.300">
-                                {user.email}
-                              </Text>
-                            </Box>
-                          </Td>
-                          {isWideVersion && (
-                            <>
-                              <Td>{user.createdAt}</Td>
-                              <Td>
-                                <Button
-                                  as="a"
-                                  size="sm"
-                                  fontSize="sm"
-                                  colorScheme="purple"
-                                  leftIcon={
-                                    <Icon as={RiPencilLine} fontSize="16" />
-                                  }
-                                >
-                                  Editar
-                                </Button>
-                              </Td>
-                            </>
-                          )}
-                        </Tr>
-                      );
-                    })}
+                  {data.users.map((user) => {
+                    return (
+                      <Tr key={user.id}>
+                        <Td px={['4', '4', '6']}>
+                          <Checkbox colorScheme="pink" />
+                        </Td>
+                        <Td>
+                          <Box>
+                            <Text fontWeight="bold">{user.name}</Text>
+                            <Text fontSize="sm" color="gray.300">
+                              {user.email}
+                            </Text>
+                          </Box>
+                        </Td>
+                        {isWideVersion && (
+                          <>
+                            <Td>{user.createdAt}</Td>
+                            <Td>
+                              <Button
+                                as="a"
+                                size="sm"
+                                fontSize="sm"
+                                colorScheme="purple"
+                                leftIcon={
+                                  <Icon as={RiPencilLine} fontSize="16" />
+                                }
+                              >
+                                Editar
+                              </Button>
+                            </Td>
+                          </>
+                        )}
+                      </Tr>
+                    );
+                  })}
                 </Tbody>
               </Table>
 
               <Pagination
-                totalCountOfRegisters={200}
-                currentPage={17}
-                onPageChange={() => {}}
+                totalCountOfRegisters={data.totalCount}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
               />
             </>
           )}
