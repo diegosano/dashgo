@@ -28,7 +28,7 @@ export const getUsers = async (page: number): Promise<GetUsersResponse> => {
       id: user.id,
       name: user.name,
       email: user.email,
-      createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
+      createdAt: new Date(user.created_at).toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: 'long',
         year: 'numeric',
@@ -44,8 +44,8 @@ export const useUsers = (page: number) => {
     ['users', page],
     () => getUsers(page),
     {
-      staleTime: 1000 * 5, // 5 seconds
+      staleTime: 1000 * 60 * 10, // 10 minutes
     }
-  );
+  ) as UseQueryResult<GetUsersResponse, unknown>;
 
 }
